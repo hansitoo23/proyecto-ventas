@@ -1,0 +1,29 @@
+name: Deploy Ventas
+
+on:
+  push:
+    branches:
+      - Deploy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Construir proyecto
+        run: mvn clean package -DskipTests
+
+      - name: Construir imagen Docker
+        run: docker build -t proyecto-ventas .
+
+      - name: Pipeline completado
+        run: echo "Deploy Ventas ejecutado correctamente"
